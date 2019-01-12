@@ -1,0 +1,39 @@
+{
+    "compilerOptions": {
+        "target": "es2017",
+        "lib": [
+            "dom",
+            "es2017"
+        ],
+        "types" : [
+            "node"
+        ],
+        "module": "umd",
+        "moduleResolution": "Node",
+        "noImplicitAny": false,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": false,
+        "strictNullChecks": false,
+        "declaration": false,
+        "inlineSourceMap": true,
+        "inlineSources": true,
+        "removeComments": true,
+        "downlevelIteration": true,
+        "skipLibCheck": true,
+        "allowJs": true,
+        "rootDir": ".",
+        "outDir": "dist",
+        "baseUrl": "."
+    },
+    "include": [
+        "src/**/*.ts"
+    ],
+    "exclude": [
+        "./node_modules"
+    ],
+    "typeRoots": [
+        "node_modules/@types"
+    ]
+}

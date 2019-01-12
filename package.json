@@ -1,0 +1,37 @@
+{
+  "name": "microts",
+  "version": "0.1.0",
+  "description": "Code generator for microservices",
+  "main": "index.js",
+  "bin": {
+    "microts": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tomi-vanek/openapi-micro-ts.git"
+  },
+  "keywords": [
+    "openapi",
+    "swagger",
+    "microservice",
+    "generator",
+    "codegen",
+    "typescript"
+  ],
+  "author": "tomi vanek",
+  "license": "MIT",
+  "homepage": "https://github.com/tomi-vanek/openapi-micro-ts#readme",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "commander": "^2.15.1",
+    "ejs": "^2.5.9",
+    "fs-extra": "^5.0.0",
+    "inquirer": "^6.0.0",
+    "js-yaml": "^3.11.0",
+    "to-pascal-case": "^1.0.0",
+    "to-slug-case": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1"
+  }
+}

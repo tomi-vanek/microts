@@ -1,0 +1,15 @@
+FROM node:8
+
+RUN mkdir -p /app
+WORKDIR /app
+
+COPY *.json /app/
+RUN npm install
+
+COPY copyStaticAssets.ts /app/
+COPY ./src /app/src
+RUN npm run build
+
+EXPOSE <%- port %>
+
+CMD [ "node", "/app/dist/src/server" ]

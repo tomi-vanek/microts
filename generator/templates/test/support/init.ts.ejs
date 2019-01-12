@@ -1,0 +1,9 @@
+import ch = require("chai");
+import chaiHttp = require("chai-http");
+
+ch.use(chaiHttp);
+
+export const chai = ch;
+export const serverUrl = process.env.SERVER || "http://localhost:<%- port %>";
+export const apiUrl = serverUrl + "/api/<%- name %>/v1";
+export const expect = ch.expect;

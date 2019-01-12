@@ -1,0 +1,33 @@
+import { describe, it, beforeEach, afterEach } from "mocha";
+import test = require("./support/init");
+
+const {chai, expect, apiUrl} = test;
+
+describe("<%- path %>", () => {
+    let client = null;
+
+    beforeEach( () => client = (chai.request(apiUrl) as any).keepOpen() );
+    afterEach( () => {
+        client.close();
+        client = null;
+    });
+    <%_ for (let i = 0; i < methods.length; i++) { %>
+    describe("method <%- methods[i].toUpperCase() %><% if (comments[i]) { %> - <%- comments[i].toLowerCase() %><% } %>", () => {
+        // TODO: remove this generated placeholder test
+        it("should be OK", () => {
+            // tslint:disable-next-line:no-unused-expression
+            expect("<%- methods[i].toUpperCase() %> <%- path %>").to.be.ok;
+        });
+
+        // TODO: add test scenarios for <%- methods[i].toUpperCase() %> <%- path %>
+        //   with Chai framework with HTTP support
+        //   see https://github.com/chaijs/chai-http
+        <%_ if (! i) { %>
+        // EXAMPLE:
+        // it("should return 200", () => {
+        //     return client.get("/health").then((res) => expect(res).to.have.status(200));
+        // });
+        <%_ } -%>
+    });
+    <%_ } %>
+});

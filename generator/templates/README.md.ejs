@@ -1,0 +1,32 @@
+# <%- title %>
+
+<%- description %>
+
+## Quick start
+
+1. Download the project `<%- name %>` from version control system and go to project directory with command `cd <%- name %>`
+1. Download dependencies and tools with command `npm install`.
+1. Start the microservice server with command `npm start` - server runs on `http://localhost:<%- port %>`.
+1. Open UI in browser with URL `http://localhost:<%- port %>`. On top right side of the UI web page is documentation, schema and generated client code for the microservice.
+1. UI gives either forms for filling in request parameters, or CURL command to test the action form terminal.
+
+## Notes for Developers
+
+* Installation of tools and runtime dependencies: `npm install`.
+* Regular service start: `npm start`.
+* Service start for development: `npm run dev` - compiles code and restarts server by each file save.
+* End-to-end test execution: `npm test` - the tested server has to be started separately with `npm start` before test is executed.
+
+## Docker
+
+1. Build the microservice image with `docker-compose build` command.
+1. Run the container with `docker-compoe up` command.
+1. Test the microservice with browser on URL `[docker-machine-url]:<%- port %>`, where the [docker-machine-url] is the IP address of the docker runtime - typically either `localhost` by native docker installation, or `192.168.99.100` if Docker runs in VirtualBox.
+1. Run the end-to-end tests with `npm test` to test the microservice running in the Docker container.
+
+## Reference
+
+* [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md)
+* [Typescript reference documentation](https://www.typescriptlang.org/docs/home.html)
+* [TS Lint](https://palantir.github.io/tslint/)
+* [Node JS documentaiton](https://nodejs.org/dist/latest-v8.x/docs/api/)

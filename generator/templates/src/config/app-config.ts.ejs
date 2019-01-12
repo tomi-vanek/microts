@@ -1,0 +1,23 @@
+import * as fs from "fs";
+import * as yaml from "js-yaml";
+import * as path from "path";
+
+const port = process.env.PORT || <%- port %>;
+const disableUI = process.env.DISABLE_UI || false;
+const swaggerSchema: any = yaml.safeLoad(fs.readFileSync(path.join(__dirname, "swagger.yaml"), "utf8"));
+const basePath = swaggerSchema.basePath;
+const description = swaggerSchema.info.description || swaggerSchema.info.title + " microservice";
+
+export const cfg = {
+    about: {
+        service: swaggerSchema.info.title,
+        version: swaggerSchema.info.version,
+    },
+    apiServer: {
+        basePath,
+        port,
+        disableUI,
+    },
+    description,
+    swaggerSchema,
+};

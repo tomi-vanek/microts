@@ -1,0 +1,79 @@
+import * as express from "express";
+import * as markedEngine from "marked-engine";
+import * as mustacheExpress from "mustache-express";
+import * as path from "path";
+import * as codegen from "swagger-js-codegen";
+import * as swaggerize from "swaggerize-express";
+
+import { cfg } from "./config/app-config";
+
+const urlWithBase = (url: string) => cfg.apiServer.basePath + url;
+const swaggerUi = urlWithBase("/ui/index.html");
+const swaggerDefinition = path.join(__dirname, "config/swagger.yaml");
+
+export const setupUI = (app) => {
+    app.use(swaggerize({
+        api: swaggerDefinition,
+        docspath: urlWithBase("/api-docs.yaml"),
+        handlers: path.join(__dirname, "handlers"),
+    }));
+
+    app.set("json spaces", 4);
+
+    if (cfg.apiServer.disableUI) {
+        console.info("User interface for microservice <%- className %> is disabled");
+    } else {
+        console.info("User interface for microservice <%- className %> is enabled.");
+        const redirectTargets = ["", "/", "/ui", "/ui/"];
+        app.get(
+            [].concat(
+                redirectTargets,
+                redirectTargets.map(urlWithBase),
+            ),
+            (req, res) => res.redirect(307, swaggerUi),
+        );
+        app.get(urlWithBase("/api-docs.json"), (req, res) => {
+            try {
+                res.json(cfg.swaggerSchema);
+            } catch (err) {
+                console.error(err);
+                res.status(500).json(err);
+            }
+        });
+
+        app.engine("md", markedEngine.renderFile);
+        app.engine("html", mustacheExpress(__dirname, "html"));
+        app.set("views", __dirname);
+
+        app.get([ "/DOCUMENTATION.md" ].map(urlWithBase),
+            (req, res) => res.render(path.join(__dirname, req.path.slice(cfg.apiServer.basePath.length))));
+
+        app.get(swaggerUi, (req, res) => {
+            res.setHeader("content-type", "text/html");
+            res.render(path.join(__dirname, "ui/swagger-ui.html"), {
+                basePath: cfg.apiServer.basePath,
+                componentName: "<%- className %>",
+            });
+        });
+
+        app.use(urlWithBase("/ui"),
+            express.static(path.dirname(require.resolve("swagger-ui-dist"))));
+
+        app.use(urlWithBase("/swagger-ui"),
+            express.static(path.join(__dirname, "ui")));
+
+        app.use(urlWithBase("/api-docs.yaml"),
+            express.static(swaggerDefinition));
+
+        const tsClientCode = codegen.CodeGen.getTypescriptCode({
+            className: "<%- className %>",
+            swagger: cfg.swaggerSchema,
+        });
+
+        app.get(urlWithBase("/client/ts.txt"),
+            (req, res) => res.type("text/plain").send(tsClientCode),
+        );
+    }
+
+    return app;
+};

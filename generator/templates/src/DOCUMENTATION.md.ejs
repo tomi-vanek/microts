@@ -1,0 +1,11 @@
+# <%- title %>
+
+<%- description %>
+
+## Microservice endpoints
+<% for (let i = 0; i < endpoints.length; i++) { %>
+* `<%- endpoints[i].path %>`
+<%_ for (let j = 0; j < endpoints[i].methods.length; j++) { -%>
+  * __<%- endpoints[i].methods[j].toUpperCase() %>__<% if (endpoints[i].comments[j]) { %>: <%- endpoints[i].comments[j] %><% } %>
+<%_ } -%>
+<%_ } -%>

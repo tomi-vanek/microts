@@ -1,0 +1,12 @@
+# End-to-end tests for <%- title %>
+
+End-to-end tests cover complete functionality of the `<%- name %>` server with backend services.
+
+## Quick start
+
+1. Install tools and libraries with command `npm install`.
+1. Start <%- name %> server with command `npm start`.
+1. Run tests with command `npm test` in different terminal.
+1. Keep the end-to-end test scenarios in directory `test` in sync with changes in schema and application logic.
+
+Tests expect by default the microservice server on URL `http://localhost:<%- port %>`. If the server runs on different URL, tests read from the environment variable `SERVER` this URL. Example for Unix command line: `SERVER=http://192.168.99.100:<%- port %> npm test`.

@@ -1,0 +1,26 @@
+## Numerous always-ignore items
+*.diff
+*.err
+*.log
+*.swp
+*.vi
+*~
+
+## OS or Editor folders
+*.sublime-workspace
+*.sublime-projects
+.DS_Store
+.cache
+.idea
+.project
+.settings
+.tmproj
+.iml
+Thumbs.db
+desktop.ini
+nbproject
+
+## application
+node_modules
+dist
+_data
