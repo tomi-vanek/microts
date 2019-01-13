@@ -27,10 +27,10 @@ ${JSON.stringify(params, null, 4)}`);
     })
     .then(() => Promise.all([
       // root
-      copy('.dockerignore'),
-      copy('.editorconfig'),
-      copy('.gitignore'),
-      copy('.npmignore'),
+      copy('_dockerignore'),
+      copy('_editorconfig'),
+      copy('_gitignore'),
+      copy('_npmignore'),
       copy('copyStaticAssets.ts'),
       applyTemplate('docker-compose.yaml.ejs', params),
       applyTemplate('Dockerfile.ejs', params),

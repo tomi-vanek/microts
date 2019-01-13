@@ -12,7 +12,12 @@ ${chalk.gray('-'.repeat(70))}
 // const destinationDir = path.resolve(process.cwd(), 'temp');
 const destinationDir = process.cwd();
 const templatePath = file => path.resolve(__dirname, 'templates', file);
-const destinationPath = file => path.resolve(destinationDir, file);
+const destinationPath = file => {
+  if (file.startsWith('_')) {
+    file = '.' + file.substring(1);
+  }
+  return path.resolve(destinationDir, file);
+};
 
 const cleanString = s => s.split(/\s+/).join(' ').trim();
 
