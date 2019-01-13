@@ -4,13 +4,16 @@ Microservice code generator with interface-first approach: from **OpenAPI - Swag
 
 Generated code has the ambition to minimize implementation time & code for new microservices.
 
-## Generator initialization
+## Quick start
 
-1. Download the generator with `git clone https://github.com/tomi-vanek/openapi-micro-ts.git` and go to project repository with `cd microts`
-1. Download generator dependencies and tools with `npm install`.
-1. Register the tool in local NPM with `npm link` command, so you can use it from command line in any directory with command `microts`.
+1. Install the generator with `npm i -g microts`
+1. Create a new project directory. Go to the new project work directory with `cd [NEW-PROJECT]`.
+1. Create new microservice schema `swagger.yaml` in root of the project.
+1. Generate microservice code with command `microts`.
+1. Start the microservice with `npm start`.
+1. Open the UI for microservice in browser with URL `localhost:[PORT]` (default port is 3000)
 
-## Code generation
+## Code generation in detail
 
 1. Create a new project directory (create a project in GitHub or other VCS and clone). Go to the new project work directory with `cd [NEW-PROJECT]`.
 1. Create new microservice schema `swagger.yaml` in root of the project.
@@ -29,9 +32,15 @@ Generated code has the ambition to minimize implementation time & code for new m
 
 ## OpenAPI / Swagger schema authoring
 
-Microservice is declared with OpenAPI (Swagger) `swagger.yaml` file with API definition - you can use Swgger editor for schema definition. This design step is crucial for further quality and usage simplicity of the new API. Design is best made in discussion. Ti may be useful to author the schema with [Online Swagger Editor](https://editor.swagger.io/).
+Microservice is declared with OpenAPI 2.0 (Swagger) `swagger.yaml` schema with API definition - you can use Swgger editor for schema definition. This design step is crucial for further quality and usage simplicity of the new API. Design is best made in discussion. It may be useful to author the schema with [Online Swagger Editor](https://editor.swagger.io/).
 
-For cloud deployments code generator generates code for health check, if in schema is defined `GET /health` action.
+For cloud deployments code generator generates code for health check, if in schema is defined action `GET /health`.
+
+## Generator code from GitHub
+
+1. Download the generator with `git clone https://github.com/tomi-vanek/openapi-micro-ts.git` and go to project repository with `cd microts`
+1. Download generator dependencies and tools with `npm i`.
+1. Register the tool in local NPM with `npm link` command, so you can use it from command line in any directory with command `microts`.
 
 ## Generator in detail
 
