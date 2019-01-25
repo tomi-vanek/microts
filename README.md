@@ -1,4 +1,4 @@
-# _microts_: code generator for microservices
+# _microts_ - code generator for microservices
 
 Microservice code generator with interface-first approach: from **OpenAPI - Swagger** REST API specification is generated complete projectt skeleton with _TypeScript_ code, tests and _Docker_ configuration.
 
