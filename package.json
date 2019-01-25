@@ -1,6 +1,6 @@
 {
   "name": "microts",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Code generator for microservices",
   "main": "index.js",
   "bin": {
@@ -16,6 +16,8 @@
   "keywords": [
     "openapi",
     "swagger",
+    "rest",
+    "api",
     "microservice",
     "generator",
     "typescript",

@@ -1,39 +1,29 @@
 import express = require("express");
 import loudRejection = require("loud-rejection");
-import logo = require("asciiart-logo");
+import splashScreen = require("asciiart-logo");
 
 import { cfg } from "./config/app-config";
 import { setupUI } from "./setup-ui";
-import { setupMW } from "./setup-mw";
+import { setupMW, setupErrorHandlingMW } from "./setup-mw";
 import { createServer } from "./create-server";
 
-loudRejection();
-
 const app = express();
+
+loudRejection();
 setupMW(app);
-
-// TODO: If microservice has file uploads, enable this middleware
-// The `multerMW` colides with JSON in body - has to be used only for specific endpoint(s)
-// app.use((req, res, next) => {
-//     // TODO: replace 'upload' with field name(s) for file upload in swagger schema
-//     req.body.upload = req.file ? req.file.buffer.length : "none";
-//     next();
-// });
-
 setupUI(app);
-
-const renderLogo = () => logo({ name: cfg.about.service })
-    .right(`version ${cfg.about.version}`).emptyLine().wrap(cfg.description)
-    .render().split("\n").map((message: string) => console.log(message));
+setupErrorHandlingMW(app);
 
 const server = createServer(app);
+
 server.listen({
-        port: cfg.apiServer.port,
-    }, () => {
-        renderLogo();
-        const serverAddress = server.address();
-        const address = serverAddress.address.split(":").join("").length ? serverAddress.address : "localhost";
-        const host = address + ":" + serverAddress.port;
-        console.info(`<%- title %> server "<%- name %>" is running on ${host}.`);
-        console.info("... listening");
-    });
+    port: cfg.apiServer.port,
+},
+() => {
+    console.log(splashScreen(cfg.about).render());
+    const serverAddress = server.address();
+    const address = serverAddress.address.split(":").join("").length ? serverAddress.address : "localhost";
+    const host = address + ":" + serverAddress.port;
+    console.info(`<%- title %> server "<%- name %>" is running on ${host}.`);
+    console.info("... listening");
+});

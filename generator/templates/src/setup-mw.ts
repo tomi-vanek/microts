@@ -29,6 +29,12 @@ const jsonParserMW = bodyParser.json({ strict: false, limit: "50mb" });
 //     limits: { fileSize: 1e6 },
 //     storage: multer.memoryStorage(),
 // }).single();
+// const multerBodyMW = (req, res, next) => {
+//     // TODO: replace 'upload' with field name(s) for file upload in swagger schema
+//     req.body.upload = req.file ? req.file.buffer.length : "none";
+//     next();
+// };
+
 
 const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
     if (res.headersSent) {
@@ -43,18 +49,29 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
     }
 };
 
-const logErrors = (err: Error, req: Request, res: Response, next: NextFunction) => {
-    console.error(err.stack);
+const logErrors = (err: Error, _req: Request, _res: Response, next: NextFunction) => {
+    if (err) {
+      console.error(err.stack);
+    }
     next(err);
 };
 
 export const setupMW = (app) => {
-    app.use(loggingMW, corsMW, logErrors, errorHandler, bodyParserMW, jsonParserMW);
-
+    // entry middleware
+    app.use(loggingMW);
+    app.use(corsMW);
     app.use(healthRedirect);
 
-    // TODO: If microservice has file uploads, enable this middleware
-    // app.use(multerMW);
+    // input validation & formatting middleware
+    app.use(bodyParserMW);
+    app.use(jsonParserMW);
+    // TODO: For file uploads - enable this middleware
+    // app.use(multerMW, multerBodyMW);
 
     // TODO: add application-specific middleware
+};
+
+export const setupErrorHandlingMW = (app) => {
+    app.use(logErrors);
+    app.use(errorHandler);
 };

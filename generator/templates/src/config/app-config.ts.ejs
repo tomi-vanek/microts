@@ -10,8 +10,9 @@ const description = swaggerSchema.info.description || swaggerSchema.info.title +
 
 export const cfg = {
     about: {
-        service: swaggerSchema.info.title,
+        name: swaggerSchema.info.title,
         version: swaggerSchema.info.version,
+        description: swaggerSchema.description,
     },
     apiServer: {
         basePath,

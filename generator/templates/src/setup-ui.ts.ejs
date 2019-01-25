@@ -30,7 +30,7 @@ export const setupUI = (app) => {
                 redirectTargets,
                 redirectTargets.map(urlWithBase),
             ),
-            (req, res) => res.redirect(307, swaggerUi),
+            (_req, res) => res.redirect(307, swaggerUi),
         );
         app.get(urlWithBase("/api-docs.json"), (req, res) => {
             try {
@@ -71,7 +71,7 @@ export const setupUI = (app) => {
         });
 
         app.get(urlWithBase("/client/ts.txt"),
-            (req, res) => res.type("text/plain").send(tsClientCode),
+            (_req, res) => res.type("text/plain").send(tsClientCode),
         );
     }
 
