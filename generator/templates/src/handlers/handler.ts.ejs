@@ -12,10 +12,20 @@ import { serverError } from "<%- '../'.repeat(path.split('/').length - 1) %>tech
  */
  <%_ if (path === '/health' && methods[i] === 'get') { -%>
 export const <%- methods[i] %> = (req: Request, res: Response): void => {
-    // TODO: Format the response according schema configuration
+    // TODO: Format the response according schema
     res.json(Object.assign({}, cfg.about, { timestamp: now() }));
 };<%_ } else { -%>
-export const <%- methods[i] %> = async (req: Request, res: Response): Promise<void> => {
-    // TODO: Implement the request handler
+export const <%- methods[i] %> = async (req: Request, res: Response): Promise<void> => {<%_ if (params[i]) { %><%_ for (let j = 0; j < params[i].length; j++) { %>
+    // const <%- params[i][j].name %> = <%-
+      (params[i][j].in === 'path') ? `req.params.${params[i][j].name}` :
+      (params[i][j].in === 'query') ? `req.query.${params[i][j].name}` :
+      (params[i][j].in === 'formData') ? `req.body.${params[i][j].name}` :
+      (params[i][j].in === 'body') ? `req.body` :
+        'null';
+    %>;<%_ } -%>
+
+
+<%_ } -%>
+    // TODO: handler for <%- methods[i].toUpperCase() %> <%- path %>
     res.status(500).json(serverError("Handler for <%- methods[i].toUpperCase() %> <%- path %> not implemented."));
 };<%_ } -%><%_ } %>

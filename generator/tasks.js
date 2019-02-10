@@ -70,11 +70,21 @@ const init = async (name, version, schema, port) => {
       const comments = methods.map(
         m => def[m].summary ? cleanString(def[m].summary) :
           def[m].description ? cleanString(def[m].description) : null);
-      return {
+      const params = methods.map(m => {
+        const parameters = def[m].parameters;
+        if (!parameters) {
+          return null;
+        }
+        const paramNames = Object.keys(parameters);
+        return paramNames.map(n => parameters[n]);
+      });
+      const result = {
         path: k,
-        methods: methods,
-        comments: comments
+        methods,
+        comments,
+        params,
       };
+      return result;
     });
 
     return Promise.resolve(props);
