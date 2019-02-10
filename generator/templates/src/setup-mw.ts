@@ -1,12 +1,15 @@
 import * as cors from "cors";
 import * as morgan from "morgan";
 import * as bodyParser from "body-parser";
-// TODO: If microservice has file uploads, enable this middleware
-// import * as multer from "multer";
-
-import { Request, Response, NextFunction } from "express";
+import * as multer from "multer";
+import { Request, Response, NextFunction, Application } from "express";
 
 import { cfg } from "./config/app-config";
+
+const loggingMW = morgan("short");
+const corsMW = cors();
+const bodyParserMW = bodyParser.urlencoded({ extended: true });
+const jsonParserMW = bodyParser.json({ strict: false, limit: "50mb" });
 
 const healthRedirect = (req: Request, _res: Response, next: NextFunction) => {
     // Health check for cloud deployment
@@ -18,25 +21,29 @@ const healthRedirect = (req: Request, _res: Response, next: NextFunction) => {
     next();
 };
 
-const loggingMW = morgan("short");
-const corsMW = cors();
-const bodyParserMW = bodyParser.urlencoded({ extended: true });
-const jsonParserMW = bodyParser.json({ strict: false, limit: "50mb" });
+const multerMW = multer({
+  limits: { fileSize: 200e6 },
+  storage: multer.memoryStorage(),
+// TODO: replace "upload" with form field name for file upload, or any for nore files
+// }).any();
+}).single("upload");
 
-// TODO: If microservice has file uploads, enable middleware `multerMW`
-// The `multerMW` colides with JSON in body - has to be used only for specific endpoint(s)
-// const multerMW = multer({
-//     limits: { fileSize: 1e6 },
-//     storage: multer.memoryStorage(),
-// }).single();
-// const multerBodyMW = (req, res, next) => {
-//     // TODO: replace 'upload' with field name(s) for file upload in swagger schema
-//     req.body.upload = req.file ? req.file.buffer.length : "none";
-//     next();
-// };
+const multerBodyMW = (req: any, res: Response, next: NextFunction): void => {
+  let input: ArrayBuffer;
+  if (req.files) {
+      input = (req.files && req.files[0] && req.files[0].buffer) ?
+          req.files[0].buffer as ArrayBuffer : new ArrayBuffer(0);
+  } else {
+      input = (req.file && req.file.buffer) ?
+          req.file.buffer as ArrayBuffer : new ArrayBuffer(0);
+  }
+  req.body.input = input;
+  // TODO: replace "upload" with form field name for file upload
+  req.body.upload = `size: ${input.byteLength}`;
+  next();
+};
 
-
-const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
+const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction): void => {
     if (res.headersSent) {
         console.error("HTTP headers sent - error is forwarded to next handler.");
         return next(err);
@@ -49,14 +56,14 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
     }
 };
 
-const logErrors = (err: Error, _req: Request, _res: Response, next: NextFunction) => {
+const logErrors = (err: Error, _req: Request, _res: Response, next: NextFunction): void => {
     if (err) {
       console.error(err.stack);
     }
     next(err);
 };
 
-export const setupMW = (app) => {
+export const setupMW = (app: Application): void => {
     // entry middleware
     app.use(loggingMW);
     app.use(corsMW);
@@ -65,13 +72,13 @@ export const setupMW = (app) => {
     // input validation & formatting middleware
     app.use(bodyParserMW);
     app.use(jsonParserMW);
-    // TODO: For file uploads - enable this middleware
-    // app.use(multerMW, multerBodyMW);
+
+    app.use(multerMW, multerBodyMW);
 
     // TODO: add application-specific middleware
 };
 
-export const setupErrorHandlingMW = (app) => {
+export const setupErrorHandlingMW = (app: Application): void => {
     app.use(logErrors);
     app.use(errorHandler);
 };

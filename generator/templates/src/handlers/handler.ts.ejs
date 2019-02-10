@@ -1,26 +1,21 @@
 import { Request, Response } from "express";
 <%_ if (path === '/health') { -%>
 import { cfg } from "../config/app-config";
-import { now } from "../tech/response";
-<%_ } else { -%>
-import { serverError } from "<%- '../'.repeat(path.split('/').length - 1) %>tech/response";
-<%_ } %>
-// Request handler for path "<%- path %>"
-module.exports = {
-<%_ for (let i = 0; i < methods.length; i++) { %>
-    <%_ if (comments && comments[i] && comments[i].length) { -%>
-    // <%- comments[i] %>
-    <%_ } -%>
-    <%_ if (path === '/health' && methods[i] === 'get') { -%>
-    <%- methods[i] %>: (req: Request, res: Response) => {
-            return res.json(Object.assign({}, cfg.about, { timestamp: now() }));
-        },
-    <%_ } else { -%>
-    <%- methods[i] %>: (req: Request, res: Response) => {
-            // TODO: Implement the request handling<%_ if (comments && comments[i] && comments[i].length) { -%> - <%- comments[i].toLowerCase() %><%_ } %>
-            // for successful result use `return res.json( ... );` - default status code is 200
-            return res.status(500).json(serverError("Not implemented."));
-        },
-    <%_ } -%>
-<%_ } %>
-};
+import { now } from "../tech/response";<%_ } else { -%>
+import { serverError } from "<%- '../'.repeat(path.split('/').length - 1) %>tech/response";<%_ } %><%_ for (let i = 0; i < methods.length; i++) { %>
+
+/**
+ * <%- methods[i].toUpperCase() %> <%- path %>
+<%_ if (comments && comments[i] && comments[i].length) { -%>
+ * <%- comments[i] %>
+<%_ } -%>
+ */
+ <%_ if (path === '/health' && methods[i] === 'get') { -%>
+export const <%- methods[i] %> = (req: Request, res: Response): void => {
+    // TODO: Format the response according schema configuration
+    res.json(Object.assign({}, cfg.about, { timestamp: now() }));
+};<%_ } else { -%>
+export const <%- methods[i] %> = async (req: Request, res: Response): Promise<void> => {
+    // TODO: Implement the request handler
+    res.status(500).json(serverError("Handler for <%- methods[i].toUpperCase() %> <%- path %> not implemented."));
+};<%_ } -%><%_ } %>

@@ -5,12 +5,9 @@
             "dom",
             "es2017"
         ],
-        "types" : [
-            "node"
-        ],
         "module": "umd",
         "moduleResolution": "Node",
-        "noImplicitAny": false,
+        "noImplicitAny": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,
         "noUnusedLocals": true,

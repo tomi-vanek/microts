@@ -15,8 +15,8 @@ const _schemaInYaml = async file => {
       if (!exists) {
         return Promise.reject(new Error(`OpenAPI schema file "${file}" not found.`));
       } else {
-        console.log(line);
-        console.log(chalk.cyan('Reading OpenAPI schema'), file);
+        // console.log(line);
+        // console.log(chalk.cyan('Reading OpenAPI schema'), file);
         const normalizedName = file.toLowerCase();
         if (normalizedName.endsWith('.yaml') || normalizedName.endsWith('.yml')) {
           return Promise.resolve(file);
@@ -46,16 +46,16 @@ const init = async (name, version, schema, port) => {
 
   console.log(line);
   console.log(chalk.cyan('Microservice code generator'), name, version);
-  console.log(chalk.cyan('  * Schema'), props.schemaFile);
-  console.log(chalk.cyan('  * Port'), props.port);
+  console.log(chalk.cyan('  - Schema'), props.schemaFile);
+  console.log(chalk.cyan('  - Port'), props.port);
 
-  console.log(line);
+  // console.log(line);
   if (! await fse.exists(props.schemaFile)) {
     return Promise.reject(new Error(`OpenAPI schema file "${props.schemaFile}" not found.`));
   } else {
     props.schema = await _readSchema(props.schemaFile);
-    console.log(`${chalk.cyan('Microservice schema')} ${props.schemaFile}
-${JSON.stringify(props.schema, null, 4)}`);
+//     console.log(`${chalk.cyan('Microservice schema')} ${props.schemaFile}
+// ${JSON.stringify(props.schema, null, 4)}`);
 
     props.title = props.schema.info.title || 'Microservice';
     const fragments = props.schema.basePath ? props.schema.basePath.split('/') : [];

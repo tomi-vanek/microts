@@ -7,11 +7,11 @@ import * as swaggerize from "swaggerize-express";
 
 import { cfg } from "./config/app-config";
 
-const urlWithBase = (url: string) => cfg.apiServer.basePath + url;
+const urlWithBase = (url: string): string => cfg.apiServer.basePath + url;
 const swaggerUi = urlWithBase("/ui/index.html");
 const swaggerDefinition = path.join(__dirname, "config/swagger.yaml");
 
-export const setupUI = (app) => {
+export const setupUI = (app: express.Application): void => {
     app.use(swaggerize({
         api: swaggerDefinition,
         docspath: urlWithBase("/api-docs.yaml"),
@@ -74,6 +74,4 @@ export const setupUI = (app) => {
             (_req, res) => res.type("text/plain").send(tsClientCode),
         );
     }
-
-    return app;
 };

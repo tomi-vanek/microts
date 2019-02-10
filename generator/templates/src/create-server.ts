@@ -1,9 +1,9 @@
-import http = require("http");
-import httpShutdown = require("http-shutdown");
-
+import * as http from "http";
+import * as httpShutdown from "http-shutdown";
 import { Socket } from "net";
+import { Application } from "express";
 
-export const createServer = (app) => {
+export const createServer = (app: Application) => {
     process.on("uncaughtException", (err: Error) => {
         console.error("Uncought exception", err);
         if (err && err.stack) {
@@ -26,7 +26,7 @@ export const createServer = (app) => {
     const server: any = httpShutdown(http.createServer(app));
 
     const shutDown = () => {
-        console.log("\nServer is shutting down...");
+        console.info("\nServer is shutting down...");
         server.shutdown();
     };
 

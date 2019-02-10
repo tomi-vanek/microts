@@ -6,9 +6,9 @@ services:
             dockerfile: ./Dockerfile
         container_name: <%- name %>
         environment:
-          - "NODE_ENV=production"
+        - "NODE_ENV=production"
         ports:
-          - <%- port %>:<%- port %>
+        - <%- port %>:<%- port %>
         user: node
         working_dir: /app
         command: node dist/src/server

@@ -13,14 +13,15 @@ const {
 
 const generate = async params => {
   console.log(line);
-  console.log(`${chalk.cyan('Microservice configuration')}
+// TODO: enable detailed info by cli parameter
+//   console.log(`${chalk.cyan('Microservice configuration')}
 
-${JSON.stringify(params, null, 4)}`);
+// ${JSON.stringify(params, null, 4)}`);
 
   // return emptyDestinationDir()
   return Promise.resolve()
     .then(() => {
-      console.log(line);
+      // console.log(line);
       console.log(chalk.cyan(`Generating files
 `));
       return Promise.resolve();
@@ -56,6 +57,9 @@ ${JSON.stringify(params, null, 4)}`);
       // src/tech
       copy('src/tech/response.ts'),
 
+      // src/typings-local
+      copy('src/typings-local/types.d.ts'),
+
       // src/ui
       copy('src/ui/api.css'),
       copy('src/ui/favicon.png'),
@@ -68,9 +72,7 @@ ${JSON.stringify(params, null, 4)}`);
       generateTests(params),
     ])
       .then(result => {
-        // move generated code form temp
-        // fse.move... TODO :-)
-        // delete temp
+        // TODO: move generated code form temp: fse.move & delete temp
 
         console.log(line);
         // return statistics from the code generation

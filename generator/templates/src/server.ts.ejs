@@ -1,26 +1,25 @@
-import express = require("express");
-import loudRejection = require("loud-rejection");
-import splashScreen = require("asciiart-logo");
+import * as express from "express";
+import * as loudRejection from "loud-rejection";
+import * as splashScreen from "asciiart-logo";
 
 import { cfg } from "./config/app-config";
 import { setupUI } from "./setup-ui";
 import { setupMW, setupErrorHandlingMW } from "./setup-mw";
 import { createServer } from "./create-server";
 
-const app = express();
-
 loudRejection();
+
+const app = express();
 setupMW(app);
 setupUI(app);
 setupErrorHandlingMW(app);
 
 const server = createServer(app);
-
 server.listen({
     port: cfg.apiServer.port,
 },
 () => {
-    console.log(splashScreen(cfg.about).render());
+    console.log(splashScreen({...cfg.about, logoColor: "bold-red"}).render());
     const serverAddress = server.address();
     const address = serverAddress.address.split(":").join("").length ? serverAddress.address : "localhost";
     const host = address + ":" + serverAddress.port;
