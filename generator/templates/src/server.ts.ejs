@@ -4,13 +4,14 @@ import * as splashScreen from "asciiart-logo";
 
 import { cfg } from "./config/app-config";
 import { setupUI } from "./setup-ui";
-import { setupMW, setupErrorHandlingMW } from "./setup-mw";
+import { setupAppMW, setupFormMW, setupErrorHandlingMW } from "./setup-mw";
 import { createServer } from "./create-server";
 
 loudRejection();
 
 const app = express();
-setupMW(app);
+setupAppMW(app);
+setupFormMW(app);
 setupUI(app);
 setupErrorHandlingMW(app);
 

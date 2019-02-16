@@ -3,6 +3,13 @@
     "description": "<%- description %>",
     "version": "<%- version %>",
     "main": "./dist/src/server",
+    "keywords": [
+      "openapi",
+      "swagger",
+      "rest",
+      "api",
+      "microservice"
+    ],
     "dependencies": {
         "asciiart-logo": "^0.2.6",
         "body-parser": "^1.17.2",
@@ -47,7 +54,7 @@
     "scripts": {
         "start": "npm run build && node ./dist/src/server",
         "test": "mocha -r ts-node/register test/**/*.spec.ts",
-        "dev": "npm run build && concurrently -k -p '[{name}]' -n 'TypeScript,Node' -c 'cyan.bold,green.bold' 'npm run watch-ts' 'npm run serve-debug'",
+        "dev": "npm run build && concurrently -k -p '[{name}]' -n 'TypeScript,Node' -c 'cyan.bold,green.bold' 'npm run watch-ts' 'npm run serve-dev'",
 
         "clean": "rm -rf dist",
         "build": "npm run build-ts && npm run lint && npm run copy-static-assets",
@@ -57,6 +64,7 @@
         "build-ts": "tsc -p ./tsconfig.json",
         "copy-static-assets": "ts-node ./copyStaticAssets.ts",
         "watch-ts": "tsc -w -p ./tsconfig.json",
-        "serve-debug": "nodemon --inspect --ignore _data dist/src/server"
+        "serve-dev": "nodemon --inspect --ignore _data dist/src/server",
+        "serve-debug": "nodemon --ignore _data dist/src/server"
     }
 }

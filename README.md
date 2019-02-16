@@ -1,8 +1,8 @@
 # _microts_ - code generator for microservices
 
-Microservice code generator with interface-first approach: from **OpenAPI - Swagger** REST API specification is generated complete projectt skeleton with _TypeScript_ code, tests and _Docker_ configuration.
+Microservice code generator with interface-first approach: from **OpenAPI - Swagger** REST API specification is generated complete project skeleton with _TypeScript_ code, tests and _Docker_ configuration.
 
-Generated code has the ambition to minimize implementation time & code for new microservices.
+Generated code has the ambition to minimize implementation time for new microservices.
 
 ## Quick start
 
