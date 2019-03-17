@@ -19,6 +19,7 @@ export const <%- methods[i] %> = async (req: Request, res: Response): Promise<vo
     // const <%- params[i][j].name %> = <%-
       (params[i][j].in === 'path') ? `req.params.${params[i][j].name}` :
       (params[i][j].in === 'query') ? `req.query.${params[i][j].name}` :
+      (params[i][j].in === 'header') ? `req.header.${params[i][j].name}` :
       (params[i][j].in === 'formData') ? `req.body.${params[i][j].name}` :
       (params[i][j].in === 'body') ? `req.body` :
         'null';
