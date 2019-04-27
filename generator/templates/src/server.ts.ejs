@@ -23,7 +23,9 @@ server.listen({
     console.log(splashScreen({...cfg.about, logoColor: "bold-red"}).render());
     const serverAddress = server.address();
     const address = serverAddress.address.split(":").join("").length ? serverAddress.address : "localhost";
-    const host = address + ":" + serverAddress.port;
+    const host = `${address}:${serverAddress.port}`;
+    const ui = `${host}<%- basePath %>/ui`;
     console.info(`<%- title %> server "<%- name %>" is running on ${host}.`);
+    console.info(`User interface is on ${ui}.`);
     console.info("... listening");
 });

@@ -24,9 +24,10 @@ export const setupUI = (app: express.Application): void => {
         console.info("User interface for microservice <%- className %> is disabled");
     } else {
         console.info("User interface for microservice <%- className %> is enabled.");
-        const redirectTargets = ["", "/", "/ui", "/ui/"];
+        const redirectTargets = ["/ui", "/ui/"];
         app.get(
             [].concat(
+                "",
                 redirectTargets,
                 redirectTargets.map(urlWithBase),
             ),

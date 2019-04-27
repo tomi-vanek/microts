@@ -60,9 +60,10 @@ const init = async (name, version, schema, port) => {
     props.title = props.schema.info.title || 'Microservice';
     const fragments = props.schema.basePath ? props.schema.basePath.split('/') : [];
     props.name = (fragments && fragments[2]) ? fragments[2] : toSlugCase(props.title);
-    props.description = props.schema.info.description ? cleanString(props.schema.info.description) : props.title + '  microservice';
+    props.description = props.schema.info.description ? cleanString(props.schema.info.description) : props.title + ' microservice';
     props.version = props.schema.info.version || '1.0.0';
     props.className = toPascalCase(props.title);
+    props.basePath = props.schema.basePath ? props.schema.basePath : '';
 
     props.endpoints = Object.keys(props.schema.paths).map(k => {
       const def = props.schema.paths[k];
@@ -99,7 +100,7 @@ ${chalk.cyan('Next steps')}
 
 1.) Run ${chalk.cyan('npm i')} to download libraries and tools.
 2.) Start the server with ${chalk.cyan('npm start')} command.
-3.) Open the user interface of the microservice in browser with URL ${chalk.cyan('http://localhost:' + result.props.port)}.
+3.) Open the user interface of the microservice in browser with URL ${chalk.cyan(`http://localhost:${result.props.port}${result.props.basePath}/ui`)}.
     Request handler for GET /health responds with code 200.
     Other generated request handlers respond with code 500 - Not implemented error.
     See  ${chalk.cyan('README.md')} for additional information about generated project.

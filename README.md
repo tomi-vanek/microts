@@ -11,7 +11,7 @@ Generated code has the ambition to minimize implementation time for new microser
 1. Create new microservice schema `swagger.yaml` in root of the project.
 1. Generate microservice code with command `microts`.
 1. Start the microservice with `npm start`.
-1. Open the UI for microservice in browser with URL `localhost:[PORT]` (default port is 3000)
+1. Open the UI for microservice in browser with URL `localhost:[PORT]/[base-path]/ui` (default port is 3000, base path is defined by schema)
 
 ## Code generation in detail
 
