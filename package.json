@@ -27,6 +27,9 @@
   "author": "tomi vanek",
   "license": "MIT",
   "homepage": "https://github.com/tomi-vanek/microts#readme",
+  "scripts": {
+    "postversion": "git push && git push --tags"
+  },
   "dependencies": {
     "chalk": "^2.4.2",
     "commander": "^2.19.0",
