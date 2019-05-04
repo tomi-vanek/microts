@@ -1,6 +1,6 @@
 {
   "name": "microts",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Code generator for microservices",
   "main": "index.js",
   "bin": {
