@@ -1,4 +1,4 @@
-# _microts_ - code generator for microservices
+# MicroTS code generator for microservices
 
 Microservice code generator with interface-first approach: from **OpenAPI - Swagger** REST API specification is generated complete project skeleton with _TypeScript_ code, tests and _Docker_ configuration.
 
@@ -67,8 +67,9 @@ Generator does not offer rich set of options to tailor the result into different
 
 * Developers are implementing the application logic in request handlers and tests.
 * Non-functional concerns are hidden in the generated code.
+* Implementation of microservice "from zero" is very fast - removes time & effort concerns by introducing new or radical refactoring of existing services in system ecosystem.
 
-_openapi-micro-ts_ generator in architecture:
+Generator in architecture:
 
 * Operational definition of the architecture (as a replacement of write-only obsolete documentation :-)
 * Consistency of project structure - simple global refactoring by changes of the runtime environment

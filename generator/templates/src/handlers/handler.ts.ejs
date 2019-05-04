@@ -15,18 +15,26 @@ export const <%- methods[i] %> = (req: Request, res: Response): void => {
     // TODO: Format the response according schema
     res.json(Object.assign({}, cfg.about, { timestamp: now() }));
 };<%_ } else { -%>
-export const <%- methods[i] %> = async (req: Request, res: Response): Promise<void> => {<%_ if (params[i]) { %><%_ for (let j = 0; j < params[i].length; j++) { %>
-    // const <%- params[i][j].name %> = <%-
+export const <%- methods[i] %> = async (req: Request, res: Response): Promise<void> => {<%_ if (params[i]) { %><%_
+    for (let j = 0; j < params[i].length; j++) { %>
+    // const <%- params[i][j].name %><%-
+      (params[i][j].type === 'string' || params[i][j].type === 'boolean') ? `: ${params[i][j].type}` :
+      (params[i][j].type === 'number' || params[i][j].type === 'integer') ? `: number` :
+      ''
+    %> = <%-
       (params[i][j].in === 'path') ? `req.params.${params[i][j].name}` :
       (params[i][j].in === 'query') ? `req.query.${params[i][j].name}` :
       (params[i][j].in === 'header') ? `req.header.${params[i][j].name}` :
       (params[i][j].in === 'formData') ? `req.body.${params[i][j].name}` :
       (params[i][j].in === 'body') ? `req.body  // TODO: for uploaded files req.body.input` :
-        'null';
-    %>;<%_ } -%>
-
+        'null'
+    %><%- (params[i][j].default && params[i][j].type === 'string') ? ` || "${params[i][j].default}"` :
+      (params[i][j].default) ? ` || ${params[i][j].default}` :
+      "" %>;<%_
+ } -%>
 
 <%_ } -%>
+
     // TODO: handler for <%- methods[i].toUpperCase() %> <%- path %>
     res.status(500).json(serverError("Handler for <%- methods[i].toUpperCase() %> <%- path %> not implemented."));
 };<%_ } -%><%_ } %>
