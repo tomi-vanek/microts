@@ -4,25 +4,29 @@ Microservice code generator with interface-first approach: from **OpenAPI - Swag
 
 Generated code has the ambition to minimize implementation time for new microservices.
 
+The _openapi-micro-ts_ generator is a simple "one-shot" project initialization tool - after the code is generated, the service functionality is implemented with traditional manual coding.
+
 ## Quick start
 
 1. Install the generator with `npm i -g microts`
 1. Create a new project directory. Go to the new project work directory with `cd [NEW-PROJECT]`.
-1. Create new microservice schema `swagger.yaml` in root of the project.
-1. Generate microservice code with command `microts`.
-1. Start the microservice with `npm start`.
-1. Open the UI for microservice in browser with URL `localhost:[PORT]/[base-path]/ui` (default port is 3000, base path is defined by schema)
+1. Create new microservice schema with default name `swagger.yaml` in root of the project.
+1. Generate microservice code with command `microts` with default port 3000.
+1. Nstall dependencies with `npm i` and start the microservice with `npm start`.
+1. Open the microservice debugging user interface in browser with URL `localhost:3000/[base-path]/ui` (base path is defined by schema).
 
 ## Code generation in detail
 
 1. Create a new project directory (create a project in GitHub or other VCS and clone). Go to the new project work directory with `cd [NEW-PROJECT]`.
-1. Create new microservice schema `swagger.yaml` in root of the project.
-1. Generate microservice code with command `microts`.
+1. Create new microservice schema in root of the project. Supproted schema formats are [OpenAPI 2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) in both YAML and JSON format.
+1. Generate microservice code with command `microts -p PORT -s SCHEMA`. Parameter PORT defines the default port on which the server will listen (if not set, default port 3000 will be used for code generation). Parameter SCHEMA is the name of the schema - may be with absolute or relative path, if schema is not in working directory. If schema is not set, generator tries to open `swagger.yaml` file for API definition.
 1. Read the _Next steps_ in the console and familiarize with the generated microservice server.
 1. More information about the microservice is in the generated `README.md` file.
 1. Add repository and license fields to the generated `package.json`.
-1. The source `swagger.yaml` was copied to `src/conf/` directory. The source `swagger.yaml` can be deleted - as it is not used by the server.
+1. The source schema was copied (and if needed - converted) to `src/conf/swagger.yaml` file. The source schema can be deleted - as it is not used by the server.
 1. Search for `TODO` in code, and implement the functionality.
+
+For all command line properties of the `microts` code generator use the command `microts -h`.
 
 ## Microservice development
 
@@ -44,11 +48,11 @@ For cloud deployments code generator generates code for health check, if in sche
 
 ## Generator in detail
 
-The _openapi-micro-ts_ generator is a simple "one-shot" project initialization tool - after the code is generated, the service functionality is implemented with traditional manual coding.
+The microservice interface is defined in form of [OpenAPI 2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) schema, as the libraries / tools used in generated code do not support the current version of OpenAPI yet.
 
-The microservice interface is defined in form of [OpenAPI 2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) schema. (the libraries / tools used in generated code did not support the current version of OpenAPI yet...)
+Generated application code is in TypeScript language.
 
-Generated application code is in TypeScript. Basic features of the generated code:
+Basic features of the generated code:
 
 * TypeScript language
 * Application configuration in directory `/src/conf`
@@ -58,8 +62,6 @@ Generated application code is in TypeScript. Basic features of the generated cod
 * User interface for microservice testing and administration in `/src/ui`
 * `Dockerfile` for deployment image and `docker-compose.yaml` as an example usage in application integration
 * End-to-end tests  in `/test`
-
-Generate new code with command `microts -p PORT` - where _PORT_ is the default HTTP port of the service. For all command line properties call `microts -h`.
 
 ## Architecture shape
 

@@ -2,7 +2,12 @@ import { Request, Response } from "express";
 <%_ if (path === '/health') { -%>
 import { cfg } from "../config/app-config";
 import { now } from "../tech/response";<%_ } else { -%>
-import { serverError } from "<%- '../'.repeat(path.split('/').length - 1) %>tech/response";<%_ } %><%_ for (let i = 0; i < methods.length; i++) { %>
+import { serverError } from "<%- '../'.repeat(path.split('/').length - 1) %>tech/response";<%_ } %>
+
+module.exports = {<%_ for (let i = 0; i < methods.length; i++) { %>
+  <%- methods[i] %>: <%- methods[i] %>Handler,
+<%_ } -%>
+};<%_ for (let i = 0; i < methods.length; i++) { %>
 
 /**
  * <%- methods[i].toUpperCase() %> <%- path %>
@@ -11,11 +16,11 @@ import { serverError } from "<%- '../'.repeat(path.split('/').length - 1) %>tech
 <%_ } -%>
  */
  <%_ if (path === '/health' && methods[i] === 'get') { -%>
-export const <%- methods[i] %> = (req: Request, res: Response): void => {
+function <%- methods[i] %>Handler(req: Request, res: Response): void {
     // TODO: Format the response according schema
     res.json(Object.assign({}, cfg.about, { timestamp: now() }));
-};<%_ } else { -%>
-export const <%- methods[i] %> = async (req: Request, res: Response): Promise<void> => {<%_ if (params[i]) { %><%_
+}<%_ } else { -%>
+async function <%- methods[i] %>Handler(req: Request, res: Response): Promise<void> {<%_ if (params[i]) { %><%_
     for (let j = 0; j < params[i].length; j++) { %>
     // const <%- params[i][j].name %><%-
       (params[i][j].type === 'string' || params[i][j].type === 'boolean') ? `: ${params[i][j].type}` :
@@ -37,4 +42,4 @@ export const <%- methods[i] %> = async (req: Request, res: Response): Promise<vo
 
     // TODO: handler for <%- methods[i].toUpperCase() %> <%- path %>
     res.status(500).json(serverError("Handler for <%- methods[i].toUpperCase() %> <%- path %> not implemented."));
-};<%_ } -%><%_ } %>
+}<%_ } -%><%_ } %>
