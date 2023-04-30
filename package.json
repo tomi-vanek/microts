@@ -33,7 +33,7 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "commander": "^2.20.0",
-    "ejs": "^2.6.1",
+    "ejs": "^3.1.7",
     "fs-extra": "^8.0.1",
     "inquirer": "^6.3.1",
     "js-yaml": "^3.13.1",
